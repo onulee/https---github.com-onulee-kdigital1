@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <title>차트그리기</title>
+    <style>
+        div{width:700px; height:500px; border:1px solid black;}
+    </style>
+    <script>
+        $(function(){
+            let xData=[]
+            let yData=[]
+            $("#chartBtn").click(function(){
+                // 삼성전자 매출액 배열에 저장
+                $("label").each(function(){
+                    xData.push($(this).text())
+                    yData.push($(this).next().val())
+                })
+                $.ajax({
+                    url:"js/income.json", //서버저장주소
+                    data:{"year":xData,"income":yData },
+                    dataType:"json",
+                    success:function(data){
+                        const ctx = document.getElementById('myChart').getContext('2d');
+                        const myChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: xData,
+                                datasets: [{
+                                    label: '삼성전자 매출액 (단위:10억원)',
+                                    data: yData,
+                                    backgroundColor: [
+                                        'rgba(255, 99, 132, 0.2)',
+                                        'rgba(54, 162, 235, 0.2)',
+                                        'rgba(255, 206, 86, 0.2)',
+                                        'rgba(75, 192, 192, 0.2)',
+                                        'rgba(153, 102, 255, 0.2)',
+                                        'rgba(255, 159, 64, 0.2)',
+                                        'rgba(255, 99, 132, 0.2)'
+                                    ],
+                                    borderColor: [
+                                        'rgba(255, 99, 132, 1)',
+                                        'rgba(54, 162, 235, 1)',
+                                        'rgba(255, 206, 86, 1)',
+                                        'rgba(75, 192, 192, 1)',
+                                        'rgba(153, 102, 255, 1)',
+                                        'rgba(255, 159, 64, 1)',
+                                        'rgba(255, 99, 132, 1)'
+                                    ],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });//chart
+                        
+                    },
+                    error:function(){
+
+                    }
+                })//ajax
+            })//chartBtn
+        })//function
+    </script>
+</head>
+<body>
+    <h2>삼성전자 매출액 현황</h2>
+    <label>2015년</label>
+    <input type="text" name="2015"><br>
+    <label>2016년</label>
+    <input type="text" name="2016"><br>
+    <label>2017년</label>
+    <input type="text" name="2017"><br>
+    <label>2018년</label>
+    <input type="text" name="2018"><br>
+    <label>2019년</label>
+    <input type="text" name="2019"><br>
+    <label>2020년</label>
+    <input type="text" name="2020"><br>
+    <label>2021년</label>
+    <input type="text" name="2021"><br>
+    <br>
+    <button id="chartBtn">차트그리기</button>
+    <br><br>
+    <div>
+        <canvas id="myChart" ></canvas>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <title>차트그리기</title>
+    <style>
+        div{width:700px; height:500px; border:1px solid black;}
+    </style>
+    <script>
+        $(function(){
+            let xData=[]
+            let yData=[]
+            $("#chartBtn").click(function(){
+                // 1차누계접종자 : 서울,부산,대구,인천,광주,대전,울산
+                $.ajax({
+                    url:"https://api.odcloud.kr/api/15077756/v1/vaccine-stat?page=1&perPage=10&serviceKey=918RE13GA7OY7ZEmUzApgbOeAcQoZ%2FaHsXWcqPAKQ9YNNPj83KOstRMRIUrCFIAcm9qj2R6b7NFZjp%2FYsYzJLg%3D%3D",
+                    dataType:"json",
+                    success:function(data){
+
+                        //let arr = data.response.body.items.item
+                        console.log("data : "+data.data.length)
+                        /*
+                        if(data.data.length>0){
+                            $.each(data.data,function(i,o){
+                                if(i>=1 && i<=7){
+                                    xData.push(o.sido)
+                                    yData.push(o.accumulatedFirstCnt)
+                                } 
+                            })//each
+                        }//if
+                        */
+
+                        if(data.data.length>0){
+                            for(let i=1;i<=7;i++){
+                                xData.push(data.data[i].sido)
+                                yData.push(data.data[i].accumulatedFirstCnt)
+                            }
+                            const ctx = document.getElementById('myChart').getContext('2d');
+                            const myChart = new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                    labels: xData,
+                                    datasets: [{
+                                        label: '코로나 접속현황',
+                                        data: yData,
+                                        backgroundColor: [
+                                            'rgba(255, 99, 132, 0.2)',
+                                            'rgba(54, 162, 235, 0.2)',
+                                            'rgba(255, 206, 86, 0.2)',
+                                            'rgba(75, 192, 192, 0.2)',
+                                            'rgba(153, 102, 255, 0.2)',
+                                            'rgba(255, 159, 64, 0.2)',
+                                            'rgba(255, 99, 132, 0.2)'
+                                        ],
+                                        borderColor: [
+                                            'rgba(255, 99, 132, 1)',
+                                            'rgba(54, 162, 235, 1)',
+                                            'rgba(255, 206, 86, 1)',
+                                            'rgba(75, 192, 192, 1)',
+                                            'rgba(153, 102, 255, 1)',
+                                            'rgba(255, 159, 64, 1)',
+                                            'rgba(255, 99, 132, 1)'
+                                        ],
+                                        borderWidth: 1
+                                    }]
+                                },
+                                options: {
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true
+                                        }
+                                    }
+                                }
+                            });//chart
+                        
+                        }else{
+                            alert('데이터가 없습니다.')
+                            return false
+                        }
+                    },
+                    error:function(){
+
+                    }
+                })//ajax
+            })//chartBtn
+        })//function
+    </script>
+</head>
+<body>
+    <button id="chartBtn">차트그리기</button>
+    <br><br>
+    <div>
+        <canvas id="myChart" ></canvas>
+    </div>
+    
+</body>
+</html>

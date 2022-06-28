@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/js0401_10.js"></script>
+    <title>Document</title>
+    <style>
+    </style>
+</head>
+<body>
+    <form action="hs0401_02.html" method="get" name="frm">
+        <label>이름</label>
+        <input type="text" name="name" id="name"><br>
+        <select name="birth" id="birth">
+        </select>
+        <label>년</label>
+        <br>
+        <input type="submit" value="전송">
+    </form>
+    <script>
+        let str1=''
+        for(let i=1900;i<=2022;i++){
+            str2 ='<option value="'        
+            str5 = i
+            str6 = '">'    
+            str3 = i
+            str4 = '</option>'
+            str1 += str2+str5+str6+str3+str4
+        }        
+        document.getElementById('birth').innerHTML=str1;
+    </script>
+   
+    
+</body>
+</html>
