@@ -58,8 +58,9 @@ score = clf.score(test_scaled,test_label)
 print("정답률 : ",score)
 
 # 그래프 작업
+# new[[1,2]]
 plt.scatter(train_scaled[:,0],train_scaled[:,1])
-# plt.scatter(new[0],new[1], marker='x')
+plt.scatter(new[0][0],new[0][1], marker='x')
 plt.show()
 
 
