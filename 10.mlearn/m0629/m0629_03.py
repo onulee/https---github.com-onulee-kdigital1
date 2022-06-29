@@ -11,22 +11,16 @@ df = pd.read_csv('10.mlearn/m0629/mushroom.csv')
 data = df[['cap-shape','cap-surface','cap-color','bruises','odor','gill-attachment','gill-spacing','gill-size','gill-color','stalk-shape','stalk-root','stalk-surface-above-ring','stalk-surface-below-ring','stalk-color-above-ring','stalk-color-below-ring','veil-type','veil-color','ring-number','ring-type','spore-print-color','population','habitat']]
 label = df['poisonous']
 
-
-
-
-
-
-
-
-# 데이터 전처리
-a_data = []
-for i in range(len(data)):
+a_data=[]
+for i in range(len(data)):    # 8124
     row_data=[]
-    for v in range(len(data.iloc[i])):
-        row_data.append(ord(data.iloc[i,v])) # 아스키코드 변환후 저장
-    a_data.append(row_data)
+    for v in range(len(data.iloc[i])): # 22 
+        row_data.append(ord(data.iloc[i,v]))
+    a_data.append(row_data)  
     
-data=a_data
+data = a_data    
+
+    
 # data = []
 # label = []
 # # iterrows -> 2개 리턴 (index,list형태의 데이터)
