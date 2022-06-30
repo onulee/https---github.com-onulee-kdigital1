@@ -19,3 +19,8 @@ length = np.array(perch_length)
 weight = np.array(perch_weight)
 
 # LinearRegression 회귀 70cm농어 무게를 예측하시오.
+
+# 1.데이터 전처리
+
+
+# 6. 정확도까지 출력
