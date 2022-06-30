@@ -45,8 +45,8 @@ lr.fit(train_poly,train_label)
 # print("y절편 : ",lr.intercept_) #  y절편
 
 # 5. 예측 - 데이터(제곱데이터,데이터)
-result = lr.predict([[50**2,50]])
-result2 = lr.predict([[100**2,100]])
+result = lr.predict([[50**2,50]])    # 1573
+result2 = lr.predict([[100**2,100]]) #8103
 # print("test데이터 : ",test_data)
 print("50cm 예측결과 : ",result)
 print("100cm 예측결과 : ",result2)
@@ -57,12 +57,18 @@ score2 = lr.score(test_poly,test_label)
 print("train 예측 : ",score1)
 print("test 예측 : ",score2)
 
+# 구간별 직선을 그리기 위해 범위를 정수 배열로 생성
+point = np.arange(15,100)
+
 # 그래프 
-# plt.scatter(train_data,train_label)
+plt.scatter(train_data,train_label)
 # # 기울기와 y절편을 이용한 선그래프
-# # y = ax(기울기) + b(y절편)
-# plt.plot([15,100],[15*lr.coef_+lr.intercept_,100*lr.coef_+lr.intercept_])
-# plt.scatter(100,3192,marker="^")
-# plt.xlabel('length')
-# plt.ylabel('weight')
-# plt.show()
+# # y = ax(기울기제곱) + b(기울기) + c(y절편)
+# 기울기 lr.coef_[0],lr.coef_[1]
+# x축 15~100 y축
+plt.plot(point,lr.coef_[0]*point**2+lr.coef_[1]*point+lr.intercept_)
+plt.scatter(50,1573,marker="D")
+plt.scatter(100,8103,marker="^")
+plt.xlabel('length')
+plt.ylabel('weight')
+plt.show()

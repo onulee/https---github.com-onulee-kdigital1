@@ -27,7 +27,7 @@ train_data, test_data, train_label, test_label = train_test_split(
 # 다항 모델 적용
 # # 기본값 degree=2, 제곱
 # include_bias 기본적으로 1적용 - True
-poly = PolynomialFeatures(degree=5,include_bias=False)
+poly = PolynomialFeatures(degree=2,include_bias=False)
 
 # poly.fit([[2,3]])
 # # 1(bias),2,3,2**2,2*3,3**2 -> 형태로 구성

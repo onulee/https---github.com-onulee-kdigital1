@@ -53,13 +53,13 @@ plt.scatter(fish_weight, predict, marker='^')
 plt.scatter(fish_weight2, predict2, marker='D')
 
 # 구간별 직선을 그리기 위해 범위 정수배열 생성
-point = np.arange(15,101)
+point = np.arange(15,100)
 
 # y = a*x + b  -> 농어무게 = 기울기 * 농어길이 + y절편
 # lr.coef_ : 기울기, lr.intercept_ : y절편 
 print(lr.coef_, lr.intercept_)
 
-# 직선 그래프 15에서 50
+# 직선 그래프 15에서 100
 plt.plot(point,lr.coef_[0]*point**2+lr.coef_[1]*point+lr.intercept_)
 plt.xlabel('length')
 plt.ylabel('weight')
