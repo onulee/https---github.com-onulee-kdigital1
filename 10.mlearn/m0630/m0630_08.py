@@ -18,9 +18,51 @@ perch_weight = [5.9, 32.0, 40.0, 51.5, 70.0, 100.0, 78.0, 80.0, 85.0, 85.0, 110.
 length = np.array(perch_length)
 weight = np.array(perch_weight)
 
-# LinearRegression 회귀 70cm농어 무게를 예측하시오.
 
-# 1.데이터 전처리
+# 2. 데이터전처리
+train_data,test_data,train_label,test_label = \
+    train_test_split(length,weight, random_state=42) # stratify 회귀에서는 의미가 없음.
+    
 
+# print(train_data) # 1차원배열 출력    
+train_data = train_data.reshape(-1,1) # 2차원배열로 변경 , -1 => 모든데이터의미  
+test_data = test_data.reshape(-1,1)   # 2차원배열로 변경
+# print(train_data) # 2차원배열 출력
 
-# 6. 정확도까지 출력
+# 다항회귀 데이터처리
+train_poly = np.column_stack((train_data**2,train_data))
+test_poly = np.column_stack((test_data**2,test_data))
+
+# 3. 알고리즘 선택
+lr = LinearRegression()
+# knr = KNeighborsRegressor()
+
+# 4. 실습훈련- 다항회귀 데이터
+lr.fit(train_poly,train_label)
+
+# LinearRegression -> 기울기, y절편
+# print("기울기 : ",lr.coef_) # 기울기 lr.coef_[0],lr.coef_[1]
+# print("y절편 : ",lr.intercept_) #  y절편
+
+# 5. 예측 - 데이터(제곱데이터,데이터)
+result = lr.predict([[50**2,50]])
+result2 = lr.predict([[100**2,100]])
+# print("test데이터 : ",test_data)
+print("50cm 예측결과 : ",result)
+print("100cm 예측결과 : ",result2)
+
+# 6. 정확도(알고리즘 성능비교)
+score1 = lr.score(train_poly,train_label)
+score2 = lr.score(test_poly,test_label)
+print("train 예측 : ",score1)
+print("test 예측 : ",score2)
+
+# 그래프 
+# plt.scatter(train_data,train_label)
+# # 기울기와 y절편을 이용한 선그래프
+# # y = ax(기울기) + b(y절편)
+# plt.plot([15,100],[15*lr.coef_+lr.intercept_,100*lr.coef_+lr.intercept_])
+# plt.scatter(100,3192,marker="^")
+# plt.xlabel('length')
+# plt.ylabel('weight')
+# plt.show()

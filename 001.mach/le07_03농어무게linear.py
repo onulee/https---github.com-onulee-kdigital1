@@ -46,7 +46,7 @@ plt.scatter(train_data, train_label)
 plt.scatter(fish_weight, predict, marker='^')
 # 100cm 농어 데이터
 plt.scatter(fish_weight2, predict2, marker='D')
-# 직선 그래프 15에서 50
+# 직선 그래프 x축 : 15에서 50 y축 기울기절편,기울기 절편
 plt.plot([15,100],[15*lr.coef_+lr.intercept_,100*lr.coef_+lr.intercept_])
 plt.xlabel('length')
 plt.ylabel('weight')
