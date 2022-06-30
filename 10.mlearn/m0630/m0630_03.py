@@ -53,6 +53,14 @@ train_data,train_label = makeData(url1)
 url2 = '10.mlearn/m0630/test/*.txt'
 test_data,test_label = makeData(url2)
 
+url3 = '10.mlearn/m0630/en-100.txt'
+s1_data,s1_label = makeData(url3)
+
+url4 = '10.mlearn/m0630/fr-100.txt'
+s2_data,s2_label = makeData(url4)
+
+
+
 
 # 2. 알고리즘 선택
 clf = svm.SVC()
@@ -64,6 +72,10 @@ clf.fit(train_data,train_label)
 # 4. 예측
 result = clf.predict(test_data)
 print("결과값 : ",result)
+result2 = clf.predict(s1_data)
+print("s1_data 결과값 : ",result2)
+result3 = clf.predict(s2_data)
+print("s2_data 결과값 : ",result3)
 
 # 5. 정답률
 score = clf.score(test_data,test_label)
