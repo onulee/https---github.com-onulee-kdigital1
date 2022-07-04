@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import Ridge
 
 # 선형회귀 - 다중회귀
 #  length,height,width -> length**2,length,height**2,height,width**2,width
@@ -40,12 +41,13 @@ poly.fit(train_data)
 train_poly = poly.transform(train_data) # 2차원방정식으로 변형
 # poly.fit_transform(train_data)
 test_poly = poly.transform(test_data)
-# print(poly.get_feature_names())
+# print(poly.get_feature_names())  #특성의 구성
 # print(train_data.shape)
 # print(train_poly.shape)
 new_poly = poly.transform([[30.4,8.89,4.22]])
    
 # 2. 알고리즘 선택
+# 규제 - 릿지회귀
 lr = LinearRegression()
 
 # 3. 실습훈련
@@ -53,14 +55,14 @@ lr.fit(train_poly,train_label)
 print(lr.coef_,lr.intercept_)
 
 # 4. 예측 30.4,8.89,4.22 특성3개
-result = lr.predict(new_poly)
+result = lr.predict(new_poly)    
 predict = lr.predict(test_poly)
 
 # 5. 정확도체크
 score1 = lr.score(train_poly,train_label)
 score2 = lr.score(test_poly,test_label)
 print("예측1 : ",score1)
-print("예측2 : ",score2)
+print("예측2 : ",score2)  # 마이너스 값이 나타남. z= a x**2
 
 # 6. 오차범위
 mae = mean_absolute_error(test_label,predict)
