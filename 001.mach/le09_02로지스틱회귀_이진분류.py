@@ -38,6 +38,7 @@ test_scaled = ss.transform(test_data)
 bream_smelt_index = (train_label == 'Bream') | (train_label =='Smelt')
 print(bream_smelt_index)
 train_bream_smelt = train_scaled[bream_smelt_index]
+test_bream_smelt = test_scaled[bream_smelt_index]
 label_bream_smelt = train_label[bream_smelt_index]
 
 # 로지스틱 회귀 사용,  확률형태로 구분하기 쉽게 변경
@@ -53,7 +54,7 @@ print("-"*50)
 
 # z = -0.404X무게 - 0.576X길이 - 0.663X대각선 - 0.013X높이 - 0.732X두계 - 2.161
 # decision_function : z값을 출력함.
-decisions = lr.decision_function(test_scaled[:5])
+decisions = lr.decision_function(test_bream_smelt[:5])
 print(np.round(decisions, decimals=2))
 # [ 0.92  3.19 -1.05 -1.53  0.08]
 
