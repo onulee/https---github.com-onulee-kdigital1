@@ -1,11 +1,11 @@
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import Lasso, LinearRegression
+from sklearn.linear_model import Ridge
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import PolynomialFeatures, StandardScaler
-from sklearn.linear_model import Ridge
 
 # 선형회귀 - 다중회귀
 #  length,height,width -> length**2,length,height**2,height,width**2,width
@@ -57,14 +57,14 @@ new_scaled = ss.transform(new_poly)
    
 # 2. 알고리즘 선택 : 규제 - 릿지회귀 alpha값 확인
 # 규제 - 릿지회귀
-# lr = LinearRegression()
+lr = LinearRegression()
 # Ridge규제 : alpha-규제강도, 값이 높을수록 강도가 강함, 값이 낮을수록 강도가 약함.
 
 # train_score=[]
 # test_score=[]
 # alpha_list = [0.01,0.1,1,10,100]
 # for list in alpha_list:
-#     ridge = Ridge(alpha=list)
+#     ridge = Lasso(alpha=list)
 #     # 3. 실습훈련
 #     ridge.fit(train_scaled,train_label)
 #     print(ridge.coef_,ridge.intercept_)
@@ -72,27 +72,31 @@ new_scaled = ss.transform(new_poly)
 #     train_score.append(ridge.score(train_scaled,train_label))
 #     test_score.append(ridge.score(test_scaled,test_label))
 
+# # 선그래프
 # plt.plot(np.log10(alpha_list),train_score)
 # plt.plot(np.log10(alpha_list),test_score)
 # plt.xlabel('alpha')
 # plt.ylabel('score')
 # plt.show()
 
-# 릿지회귀 : 기울기의 제곱을 규제 - L2규제
-ridge = Ridge(alpha=0.1)
+
+# 특성값을 제거해서 규제
+lasso = Lasso(alpha=10)
 # 3. 실습훈련
-ridge.fit(train_scaled,train_label)
+lasso.fit(train_scaled,train_label)
 # print(ridge.coef_,ridge.intercept_)
 
 # 4. 예측 30.4,8.89,4.22 특성3개
-result = ridge.predict(new_scaled)    
-predict = ridge.predict(test_scaled)
+result = lasso.predict(new_scaled)    
+predict = lasso.predict(test_scaled)
 
 # 5. 정확도
-score1 = ridge.score(train_scaled,train_label)
-score2 = ridge.score(test_scaled,test_label)
+score1 = lasso.score(train_scaled,train_label)
+score2 = lasso.score(test_scaled,test_label)
 print("score1예측 : ",score1)
 print("score2예측 : ",score2)
+
+print("0인 특성값 :",np.sum(lasso.coef_ == 0))
 
 # 6. 오차범위
 mae = mean_absolute_error(test_label,predict)
