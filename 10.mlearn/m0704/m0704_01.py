@@ -21,15 +21,20 @@ perch_weight = np.array(perch_weight)
 train_data,test_data,train_label,test_label = \
     train_test_split(perch_length,perch_weight)
 
+# numpy 배열: 2차원데이터 추가 - 다항회귀
+train_data = np.column_stack((train_data**2,train_data))
+test_data = np.column_stack((test_data**2,test_data))
+
+
 # 2. 알고리즘 선택
 lr = LinearRegression()    
 
 # 3. 실습훈련
 lr.fit(train_data,train_label)
 
-# 4. 예측
-result1 = lr.predict([[50]])  # 1033, 1033    
-result2 = lr.predict([[100]])  # 1033, 1033   
+# 4. 예측 - train_data
+result1 = lr.predict([[50**2,50]])  # 1033, 1033    
+result2 = lr.predict([[100**2,100]])  # 1033, 1033   
 predict = lr.predict(test_data) 
 print("결과1 : ",result1)
 print("결과2 : ",result2)
@@ -43,4 +48,22 @@ print("정확도2 : ",score2)
 # 6. 오차범위 - 실제데이터값,예측값의 오차
 mae = mean_absolute_error(test_label,predict)
 print("오차범위 : ",mae)
+
+# 구간별 직선을 그림.
+point = np.arange(15,100) # 15,16,17,18....100
+# print("-"*50)
+# print(lr.coef_,lr.intercept_)
+
+# 7. 산점도 그래프
+plt.scatter(perch_length,perch_weight)
+plt.scatter(50,result1,marker='^')
+plt.scatter(100,result2,marker='D')
+# x좌표, y좌표 : z = ax + b   [ 무게=기울기*15+y절편, 무게=기울기*100+y절편 ]
+# 기울기값 : lr.coef_  , y절편 : lr.intercept_
+# point, 무게=기울기[0]*point**2 + 기울기[1]*point + lr.intercept
+plt.plot(point,lr.coef_[0]*point**2+lr.coef_[1]*point+lr.intercept_)
+plt.xlabel('length')
+plt.xlabel('weight')
+plt.show()
+
   
