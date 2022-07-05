@@ -22,9 +22,9 @@ test_scaled = ss.fit_transform(test_data)
 # -----------------------------------------------
 # 확률적경사하강법
 # epoch 300번 반복 train_score,test_score 그래프 출력
-sc = SGDClassifier(loss='log',random_state=42)
-train_score=[]
-test_score=[]
+# sc = SGDClassifier(loss='log',random_state=42)
+# train_score=[]
+# test_score=[]
 classes = np.unique(train_label)
 
 # 300번반복 - partial_fit을 바로 사용시, class값을 전송
@@ -41,10 +41,10 @@ classes = np.unique(train_label)
 # plt.show()    
 
 # 확률적경사하강법사용    
-sc = SGDClassifier(loss='log',max_iter=150,tol=None,random_state=42)
+sc = SGDClassifier(loss='log_loss',max_iter=100,tol=None,random_state=42)
 # 훈련
 sc.fit(train_scaled,train_label)
-sc.partial_fit(train_scaled,train_label)
+# sc.partial_fit(train_scaled,train_label)
 # 정확도
 score1 = sc.score(train_scaled,train_label)
 score2 = sc.score(test_scaled,test_label)

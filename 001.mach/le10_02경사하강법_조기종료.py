@@ -46,27 +46,34 @@ test_score=[]
 # partial_fit메소드에 전달되어질 클래스 개수 전달
 classes = np.unique(train_label)
 # 300번 정도 반복을 해보고 그 가운데.... 반복횟수를 정함.
-for _ in range(0,300):
-    # partial_fit메소드는 이전의 가중치,Y절편에서 계속 업데이트하기 위해 사용
-    # partial_fit 함수는 데이터의 일부만 전달될수 있다고 가정하기에, 
-    # 모두 전달될때도 있지만, 일부만 전달될때도 있기에
-    # 클래스(결과값)개수를 꼭 넘겨야 함.
-    sc.partial_fit(train_scaled,train_label,classes=classes)
-    train_score.append(sc.score(train_data,train_label))
-    test_score.append(sc.score(test_data,test_label))
+# for _ in range(0,300):
+#     # partial_fit메소드는 이전의 가중치,Y절편에서 계속 업데이트하기 위해 사용
+#     # partial_fit 함수는 데이터의 일부만 전달될수 있다고 가정하기에, 
+#     # 모두 전달될때도 있지만, 일부만 전달될때도 있기에
+#     # 클래스(결과값)개수를 꼭 넘겨야 함.
+#     sc.partial_fit(train_scaled,train_label,classes=classes)
+#     train_score.append(sc.score(train_data,train_label))
+#     test_score.append(sc.score(test_data,test_label))
 
-plt.figure(figsize=(8,6)) #그래프 가로세로크기설정
-plt.plot(train_score)
-plt.plot(test_score)
-plt.xlabel('epoch')
-plt.ylabel('accuracy')
-plt.show()
+# plt.figure(figsize=(8,6)) #그래프 가로세로크기설정
+# plt.plot(train_score)
+# plt.plot(test_score)
+# plt.xlabel('epoch')
+# plt.ylabel('accuracy')
+# plt.show()
 
 # 30-200 사이의 그래프를 보면서, 반복횟수를 조정해서 최상의 조건을 찾음.    
-sc = SGDClassifier(loss='log', max_iter=100, tol=None, random_state=42)
-sc.fit(train_scaled,train_label) 
-print("정확도 : ",sc.score(train_scaled,train_label)) 
-print("정확도2 : ",sc.score(test_scaled,test_label))
+sc = SGDClassifier(loss='log_loss', max_iter=100, tol=None, random_state=42)
+sc.fit(train_scaled, train_label)
+print(sc.score(train_scaled, train_label))
+print(sc.score(test_scaled, test_label))
+
+
+# hinge
+# sc = SGDClassifier(loss='hinge', max_iter=100, tol=None, random_state=42)
+# sc.fit(train_scaled, train_label)
+# print(sc.score(train_scaled, train_label))
+# print(sc.score(test_scaled, test_label))
 
 
 
