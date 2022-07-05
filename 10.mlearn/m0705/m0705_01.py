@@ -37,7 +37,6 @@ ss = StandardScaler()
 train_scaled = ss.fit_transform(train_bream_smelt)
 test_scaled = ss.fit_transform(test_bream_smelt)
 
-
 # 알고리즘 선택
 lr  = LogisticRegression()
 # 실습훈련 - train
