@@ -71,6 +71,6 @@ print(np.round(decisions, decimals=2))
 # 양성값만 출력 predict_proba의 1의 값을 출력함.
 # [0.00240145 0.97264817 0.00513928 0.01415798 0.00232731]
 # from scipy.special import expit
-print(expit(decisions))
+print(np.round(softmax(decisions,axis=1),3))
 
 
