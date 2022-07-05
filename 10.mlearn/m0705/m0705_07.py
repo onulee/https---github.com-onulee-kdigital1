@@ -40,13 +40,21 @@ classes = np.unique(train_label)
 # plt.ylabel('accuracy')
 # plt.show()    
 
-# 확률적경사하강법사용    
+# 확률적경사하강법사용 - log손실함수 
+# 조기종료
+# tol의 값 : 반복학습을 진행하다, tol지정값보다 큰 경우에만 반복함.
+# tol=1e-5,     # max_iter에 도달하지 않더라도 작업 중단 
 sc = SGDClassifier(loss='log_loss',max_iter=100,tol=None,random_state=42)
-# 훈련
 sc.fit(train_scaled,train_label)
-# sc.partial_fit(train_scaled,train_label)
-# 정확도
 score1 = sc.score(train_scaled,train_label)
 score2 = sc.score(test_scaled,test_label)
 print("train정확도 : ",score1)
 print("test정확도 : ",score2)
+
+
+# hinge 손실함수
+# sc = SGDClassifier(loss='hinge', max_iter=100, tol=None, random_state=42)
+# sc.fit(train_scaled, train_label)
+# print(sc.score(train_scaled, train_label))
+# print(sc.score(test_scaled, test_label))
+
