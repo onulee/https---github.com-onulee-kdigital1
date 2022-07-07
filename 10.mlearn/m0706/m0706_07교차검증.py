@@ -26,3 +26,7 @@ scores = cross_validate(dt,train_data,train_label)
 
 # 정확도
 print("train score : ",np.mean(scores['test_score']))
+
+dt.fit(train_data,train_label)
+# test_data
+print("test score : ",dt.score(test_data,test_label))
