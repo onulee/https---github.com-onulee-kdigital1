@@ -185,7 +185,7 @@ picher2['예측연봉(2018)'] = pd.Series(predict_2018_salary)
 series_mean = picher2['예측연봉(2018)'].mean() # 평균
 series_std = picher2['예측연봉(2018)'].std()   # 표준편차
 # 데이터-평균/표준편차
-picher2['예측연봉(2018)'] = ((picher2['예측연봉(2018)']+series_mean)*series_std)
+picher2['예측연봉(2018)'] = picher2['예측연봉(2018)']*series_std+series_mean
 
 # 정규화,표준화 완료데이터
 print(picher2[['선수명','연봉(2018)','예측연봉(2018)','연봉(2017)']])
