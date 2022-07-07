@@ -117,8 +117,8 @@ train_data,test_data,train_label,test_label = train_test_split(
 lr.fit(train_data,train_label)
 
 # 정확도
-# print(lr.score(train_data,train_label))
-# print(lr.score(test_data,test_label))
+print(lr.score(train_data,train_label))
+print(lr.score(test_data,test_label))
 
 scale_columns = ['승', '패', '세', '홀드', '블론', '경기', '선발', '이닝', '삼진/9',
        '볼넷/9', '홈런/9', 'BABIP', 'LOB%', 'ERA', 'RA9-WAR', 'FIP', 'kFIP', 'WAR',       
@@ -141,14 +141,58 @@ corr = picher_df[scale_columns].corr(method='pearson')
 # plt.tight_layout()
 # plt.show()
 
+
+# 첫번째컬럼:vif, 두번째컬럼:컬럼명 출력
 vif = pd.DataFrame()
 vif['VIF factor'] = [variance_inflation_factor(data.values,i) for i in range(data.shape[1])]
+vif['features'] = data.columns
+# print(vif.round(1))
+
+# -------------------------------------------
+# 너무 영향력이 높거나, 너무 낮은것을 파악해서
+# 다시 훈련을 실시 함.
+# -------------------------------------------
+# data,label
+X = picher_df[['FIP','WAR','볼넷/9','삼진/9','연봉(2017)']]
+y = picher_df['y']
+
+# train,test데이터 분리
+train_data,test_data,train_label,test_label=train_test_split(X,y,random_state=19)
+
+# 모델
+lr = LinearRegression()
+lr.fit(train_data,train_label)
+
+# score재설정
+print("재설정train score : ",lr.score(train_data,train_label))
+print("재설정test score : ",lr.score(test_data,test_label))
+
+# 첫번째컬럼:vif, 두번째컬럼:컬럼명 출력
+vif = pd.DataFrame()
+vif['VIF factor'] = [variance_inflation_factor(X.values,i) for i in range(X.shape[1])]
+vif['features'] = X.columns
+print(vif.round(1))
 
 
-# 예측
 
 
-# 최종출력
+# 예측 
+predict_2018_salary = lr.predict(X)
+picher2 = pd.read_csv('10.mlearn/m0707/picher_stats_2017.csv')
+picher2['예측연봉(2018)'] = pd.Series(predict_2018_salary)
+
+# 정규화 리턴
+series_mean = picher2['예측연봉(2018)'].mean() # 평균
+series_std = picher2['예측연봉(2018)'].std()   # 표준편차
+# 데이터-평균/표준편차
+picher2['예측연봉(2018)'] = ((picher2['예측연봉(2018)']+series_mean)*series_std)
+
+# 정규화,표준화 완료데이터
+print(picher2[['선수명','연봉(2018)','예측연봉(2018)','연봉(2017)']])
+# print(picher2['예측연봉(2018)'])
+
+
+
 
 
 
