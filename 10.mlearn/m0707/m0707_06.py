@@ -67,6 +67,9 @@ picher_features_df = picher[['승', '패', '세', '홀드', '블론', '경기', 
 # plot_hist(picher_features_df)
 # -------------------------------------------------
 
+# train_data,test_data : 정규화,표준화작업
+# train_label,test_label : 정규화,표준화가 필요없음
+
 # 정규화, 표준화작업
 # 함수생성 - 매개변수 :전체데이터,전체컬럼리스트 개수 : 20
 def standard_scaling(df,scale_columns):
@@ -80,7 +83,9 @@ def standard_scaling(df,scale_columns):
         
 scale_columns = ['승', '패', '세', '홀드', '블론', '경기', '선발', '이닝', '삼진/9',
        '볼넷/9', '홈런/9', 'BABIP', 'LOB%', 'ERA', 'RA9-WAR', 'FIP', 'kFIP', 'WAR',       
-       '연봉(2018)', '연봉(2017)'] 
+       '연봉(2017)'] 
+
+
 
 # 정규화,표준화 완료데이터
 picher_df = standard_scaling(picher,scale_columns)
@@ -120,9 +125,7 @@ lr.fit(train_data,train_label)
 print(lr.score(train_data,train_label))
 print(lr.score(test_data,test_label))
 
-scale_columns = ['승', '패', '세', '홀드', '블론', '경기', '선발', '이닝', '삼진/9',
-       '볼넷/9', '홈런/9', 'BABIP', 'LOB%', 'ERA', 'RA9-WAR', 'FIP', 'kFIP', 'WAR',       
-       'y', '연봉(2017)'] 
+
 
 # picher에서 컬럼의 영향력 파악분석 - 20개 컬럼리스트
 corr = picher_df[scale_columns].corr(method='pearson')
@@ -174,24 +177,14 @@ vif['features'] = X.columns
 print(vif.round(1))
 
 
-
-
 # 예측 
 predict_2018_salary = lr.predict(X)
 picher2 = pd.read_csv('10.mlearn/m0707/picher_stats_2017.csv')
 picher2['예측연봉(2018)'] = pd.Series(predict_2018_salary)
 
-# 정규화 리턴
-series_mean = picher2['예측연봉(2018)'].mean() # 평균
-series_std = picher2['예측연봉(2018)'].std()   # 표준편차
-# 데이터-평균/표준편차
-picher2['예측연봉(2018)'] = picher2['예측연봉(2018)']*series_std+series_mean
 
-# 정규화,표준화 완료데이터
-print(picher2[['선수명','연봉(2018)','예측연봉(2018)','연봉(2017)']])
-# print(picher2['예측연봉(2018)'])
-
-
+# 예측연봉(2018)
+print(picher2[['연봉(2017)','연봉(2018)','예측연봉(2018)']])
 
 
 
