@@ -1,23 +1,48 @@
-# https://fenderist.tistory.com/168  find 요소 설명
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-import requests
-from bs4 import BeautifulSoup
-import time    # 대기시간 사용을 위해 import
-import random  # 랜덤으로 input에 데이터 입력을 위해 import
-import pyautogui
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 
+import warnings
 
-# 출력화면이 나타날때까지 대기하는 라이브러리
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.by import By
-# 브라우저 화면의 상태를 알려주는 라이브러리
-from selenium.webdriver.support import expected_conditions as EC
-from bs4 import BeautifulSoup
-url = "https://cafe.naver.com/joonggonara?iframe_url=/ArticleSearchList.nhn%3Fsearch.clubid=10050146%26search.searchBy=0%26search.query=%B0%A8%B1%E2"
+# Data Source : https://www.blockchain.com/ko/charts/market-price?timespan=60days
 
-headers={"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36"}
-res = requests.get(url,headers=headers)
-soup = BeautifulSoup(res.text,"lxml")
+file_path = '10.mlearn/m0708/market-price.csv'
+bitcoin_df = pd.read_csv(file_path, names = ['day', 'price'])
+print(bitcoin_df)
 
-print(soup)
+# 기본 정보를 출력합니다.
+print(bitcoin_df.shape)
+print(bitcoin_df.info())
+
+bitcoin_df.tail()
+
+# to_datetime으로 day 피처를 시계열 피처로 변환합니다. 
+bitcoin_df['day'] = pd.to_datetime(bitcoin_df['day'])
+
+# day 데이터프레임의 index로 설정합니다.
+bitcoin_df.index = bitcoin_df['day']
+bitcoin_df.set_index('day', inplace=True)
+bitcoin_df.head()
+
+bitcoin_df.describe()
+
+# 일자별 비트코인 시세를 시각화합니다.
+# bitcoin_df.plot()
+# plt.show()
+
+from statsmodels.tsa.arima_model import ARIMA
+from statsmodels.tsa.arima.model import ARIMA
+
+# model = sm.tsa.arima.ARIMA(train_data, order=(1,1,2))
+# result = model.fit()
+
+# (AR=2, 차분=1, MA=2) 파라미터로 ARIMA 모델을 학습합니다.
+model = ARIMA(bitcoin_df.price.values, order=(2,1,2),trend='n')
+
+model_fit = model.fit()
+print(model_fit.summary())
+
+fig = model_fit.plot_predict() # 학습 데이터에 대한 예측 결과입니다. (첫번째 그래프)
+residuals = pd.DataFrame(model_fit.resid) # 잔차의 변동을 시각화합니다. (두번째 그래프)
+residuals.plot()
+plt.show()

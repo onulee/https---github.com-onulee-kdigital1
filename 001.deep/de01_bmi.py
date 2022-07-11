@@ -24,24 +24,37 @@ X_train, y_train = X[1:15001], y[1:15001]
 X_test,  y_test  = X[15001:20001], y[15001:20001] 
 # 모델 구조 정의하기 --- (※3)
 model = keras.Sequential()
-model.add(keras.layers.Dense(512, input_shape=(2,)))
-model.add(keras.layers.Activation('relu'))
-model.add(keras.layers.Dropout(0.1))
-model.add(keras.layers.Dense(512))
-model.add(keras.layers.Activation('relu'))
-model.add(keras.layers.Dropout(0.1))
-model.add(keras.layers.Dense(3))
-model.add(keras.layers.Activation('softmax'))
+model.add(keras.layers.Flatten(input_shape=(2,)))
+
+# Dropout : overfitting,overtraining문제를 해결하는 방법
+model.add(keras.layers.Dense(512,activation='relu'))
+model.add(keras.layers.Dense(512,activation='relu'))
+model.add(keras.layers.Dense(3,activation='softmax'))
+
+# ---------------------------------------------------
+# 모델생성
+# model = Sequential()
+# model.add(Dense(512, input_shape=(2,)))
+# model.add(Activation('relu'))
+# overfitting 문제, overtraining 문제를 해결하는 방법
+# model.add(Dropout(0.1))
+
+# model.add(Dense(512))
+# model.add(Activation('relu'))
+# model.add(Dropout(0.1))
+
+# # 클래스 3개
+# model.add(Dense(3))
+# model.add(Activation('softmax'))
+
+
 # 모델 구축하기 --- (※4)
-model.compile(
-    loss='categorical_crossentropy',
-    optimizer="rmsprop",
-    metrics=['accuracy'])
+model.compile(loss='categorical_crossentropy',optimizer="adam",metrics='accuracy')
 # 데이터 훈련하기 --- (※5)
 hist = model.fit(
     X_train, y_train,
-    batch_size=100,
-    epochs=20,
+    batch_size=100,   # batch_size크기
+    epochs=20,        # 반복횟수
     validation_split=0.1,
     callbacks=[keras.callbacks.EarlyStopping(monitor='val_loss', patience=2)],
     verbose=1)

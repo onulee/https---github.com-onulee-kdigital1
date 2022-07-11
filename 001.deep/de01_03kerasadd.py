@@ -35,10 +35,11 @@ print(val_scaled.shape, val_target.shape)
 # (12000, 784) (12000,)
 
 
-model = keras.Sequential(keras.layers.Dense(10, activation='softmax', input_shape=(784,)))
+# model = keras.Sequential(keras.layers.Dense(10, activation='softmax', input_shape=(784,)))
 
-# model = keras.Sequential()
-# model.add(keras.layers.Dense(10, activation='softmax', input_shape=(784,)))
+model = keras.Sequential()
+model.add(keras.layers.Flatten(input_shape=(784,)))
+model.add(keras.layers.Dense(10, activation='softmax'))
 
 # 모델설정 - 손실함수 적용 : 이진분류:binary_crossetropy, 다중분류:categorical_crossetropy
 # 원핫인코딩 1,0,0,0,0,0,0,0,0,0 => 0 그냥숫자로 표기하려면 sparse를 붙임.
