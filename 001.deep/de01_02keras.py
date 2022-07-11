@@ -40,6 +40,13 @@ dense = keras.layers.Dense(10, activation='softmax', input_shape=(784,))
 # 모델객체 생성
 model = keras.Sequential(dense)
 
+# 다른 방법1 - Sequential()안에 Dense넣기
+# model = keras.Sequential(keras.layers.Dense(10, activation='softmax', input_shape=(784,)))
+
+# 다른 방법2
+# model = keras.Sequential() - add로 Dense넣기
+# model.add(keras.layers.Dense(10, activation='softmax', input_shape=(784,)))
+
 # 모델설정 - 손실함수 적용 : 이진분류:binary_crossetropy, 다중분류:categorical_crossetropy
 # 원핫인코딩 1,0,0,0,0,0,0,0,0,0 => 0 그냥숫자로 표기하려면 sparse를 붙임.
 # 정확도 측정지표 계산
@@ -48,7 +55,7 @@ print(train_target[:10])
 # 훈련데이터 진행, epochs반복 5회
 model.fit(train_scaled, train_target, epochs=5)
 # 검증데이터 진행
-model.evaluate(val_scaled, val_target)
+print(model.evaluate(val_scaled, val_target))
 
 
 
