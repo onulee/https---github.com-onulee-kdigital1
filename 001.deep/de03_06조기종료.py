@@ -42,27 +42,24 @@ model.summary()
 # 
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics='accuracy')
 
-history = model.fit(train_scaled, train_target, epochs=20, verbose=0,validation_data=(val_scaled,val_target))
+#  가장 낮은 손실값을 저장 - 콜백설정
+checkpoint_cb = keras.callbacks.ModelCheckpoint('best-model.h5', save_best_only=True)
 
-# 파이썬 객체로 모델을 저장 후 불러오기
-# keras에서는 2가지 : save_weights - 가중치,절편만 저장(모듈파라미터만 저장),모듈구조는 저장하지 않음
-#                                 - model을 함수로 생성해서 저장해야 함.
-# save함수 - 모델과 가중치를 모두 저장, model을 함수로 만들 필요가 없음.
-model.save_weights('model-weights.h5')
+early_stopping_cb = keras.callbacks.EarlyStopping(patience=2,restore_best_weights=True)
 
-model.save('model-whole.h5')
+history = model.fit(train_scaled, train_target, epochs=20, verbose=0,\
+    validation_data=(val_scaled,val_target),callbacks=[checkpoint_cb,early_stopping_cb])
 
-# save_weights파일 읽어오기
-model.load_weights('model-weights.h5')
+print("stop횟수 : ",early_stopping_cb.stopped_epoch)
 
-# np.argmax : 각 샘플마다 가장 큰 정확도를 찾음. 
-# axis = -1 은 axis = 1과 같음.
-val_labels = np.argmax(model.predict(val_scaled), axis=-1)
-# val_labels와 val_target값이 같은 경우만 평균
-print(np.mean(val_labels == val_target))
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.xlabel('epoch')
+plt.ylabel('loss')
+plt.legend(['train','val'])
+plt.show()
 
 # save파일 읽어오기
-model = keras.models.load_model('model-whole.h5')
-
+model = keras.models.load_model('best-model.h5')
 print(model.evaluate(val_scaled, val_target))
 

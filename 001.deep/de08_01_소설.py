@@ -4,7 +4,7 @@ from konlpy.tag import Okt
 import pandas as pd
 
 # 소설책 읽어오기
-f= open('11.deep/book.txt',encoding='utf-8')
+f= open('001.deep/book.txt',encoding='utf-8')
 book = f.read()
 # print(book) # 전체글 출력
 

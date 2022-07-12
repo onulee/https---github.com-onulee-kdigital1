@@ -44,6 +44,8 @@ dense2 = keras.layers.Dense(10, activation='softmax')
 # 모델객체 생성
 model = keras.Sequential([dense1, dense2])
 
+
+#### summary
 model.summary()
 # fit(), 미니배치하강법(기본값 32개) 사용 (확률적경사하강법-1개씩, 미니배치-묶음, 배치경사하강법-모든데이터)
 # Output Shape에서 (None-기본값을 변동할수 있도록 하기위해 None지정, 100 100개의 뉴런)
