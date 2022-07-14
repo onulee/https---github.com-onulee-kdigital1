@@ -34,18 +34,18 @@ plt.scatter(range(784),train_data[0])  # train_data 0-1 사이 그래프
 plt.show()
 
 
-# # # 3. 알고리즘 선택
-# clf = KNeighborsClassifier()
+# # 3. 알고리즘 선택
+clf = KNeighborsClassifier()
 
-# # # 4. 실습훈련
-# clf.fit(train_data,train_label)
+# # 4. 실습훈련
+clf.fit(train_data,train_label)
 
-# # # 5. 예측
-# result = clf.predict(test_data)
-# print("결과값 : ",result)
+# # 5. 예측
+result = clf.predict(test_data)
+print("결과값 : ",result)
 
-# # # 6. 정답률
-# score1 = clf.score(train_data,train_label)
-# score2 = clf.score(test_data,test_label)
-# print("정답률 1 : ",score1)
-# print("정답률 2 : ",score2)
+# # 6. 정답률
+score1 = clf.score(train_data,train_label)
+score2 = clf.score(test_data,test_label)
+print("정답률 1 : ",score1)
+print("정답률 2 : ",score2)
