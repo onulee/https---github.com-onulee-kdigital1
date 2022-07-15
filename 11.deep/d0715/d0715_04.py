@@ -54,7 +54,7 @@ plt.show()
 
 val_labels = np.argmax(model.predict([[178/200,50/100]]),axis=-1)
 
-print("result : ", val_labels)
+print("result : ", val_labels)  # 0 1 2
 # print("result : ", model.predict([[141/200,64/100]]))
 
 # 6. 정확도 - score 
