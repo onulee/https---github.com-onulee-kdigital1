@@ -27,6 +27,7 @@ model = keras.Sequential()
 model.add(keras.layers.Flatten(input_shape=(2,)))
 # Dropout : overfitting,overtraining문제를 해결하는 방법
 model.add(keras.layers.Dense(512,activation='relu'))
+model.add(Dropout(0.1))
 model.add(keras.layers.Dense(512,activation='relu'))
 model.add(keras.layers.Dense(3,activation='softmax'))
 
@@ -54,7 +55,7 @@ hist = model.fit(
     X_train, y_train,
     batch_size=100,   # batch_size크기
     epochs=20,        # 반복횟수
-    validation_split=0.1,
+    # validation_split=0.1, train,test데이터 비율 10%, monitor 기준
     callbacks=[keras.callbacks.EarlyStopping(monitor='val_loss', patience=2)],
     verbose=1)
 
