@@ -8,21 +8,32 @@ from sklearn.model_selection import train_test_split
 csv = pd.read_csv('11.deep/d0715/bmi.csv')
 
 # 원핫인코딩 : 팀명을 숫자로 변경 - 컬럼3개추가, 1개 삭제, 컬럼 5개
-bmi_label = pd.get_dummies(csv['label'])
-csv = csv.drop('label',axis=1)
-csv = csv.join(bmi_label)
+# bmi_label = pd.get_dummies(csv['label'])
+# csv = csv.drop('label',axis=1)
+# csv = csv.join(bmi_label)
 
 # 2. 데이터 전처리
 # train 정규화,표준화 작업
 csv['height'] = csv['height']/200
 csv['weight'] = csv['weight']/100
 
+# 레이블
+bclass = {"thin":0, "normal":1, "fat":2}
+label = np.empty((20000,1))
+for i, v in enumerate(csv["label"]):
+    label[i] = bclass[v]
+
+
 # train,test데이터 분리
 data = csv[['height','weight']]
-label = csv[['fat','normal','thin']].to_numpy()
+# label = csv[['fat','normal','thin']].to_numpy()
+
 
 # train,test데이터
 train_data,test_data,train_label,test_label = train_test_split(data,label)
+
+print(csv)
+
 
 # ---------------------------------
 # 4. 딥러닝 선언
@@ -30,7 +41,7 @@ model = keras.Sequential()
 model.add(keras.layers.Flatten(input_shape=(2,)))
 model.add(keras.layers.Dense(100,activation='relu'))
 model.add(keras.layers.Dense(3,activation='softmax'))
-model.compile(optimizer='adam',loss='categorical_crossentropy',metrics='accuracy')
+model.compile(optimizer='adam',loss='sparse_categorical_crossentropy',metrics='accuracy')
 
 early_stop = keras.callbacks.EarlyStopping(patience=3,restore_best_weights=True)
 
@@ -52,10 +63,11 @@ plt.show()
 
 # 5-2. (141,64) 예측(분류) 하시오.
 
-val_labels = np.argmax(model.predict([[178/200,50/100]]),axis=-1)
-
-print("result : ", val_labels)
+# val_labels = model.predict([[141/200,64/100]])
 # print("result : ", model.predict([[141/200,64/100]]))
+# val_labels = np.argmax(model.predict([[141/200,64/100]]),axis=-1)
+val_labels = np.argmax(model.predict([[0.68,0.63]]),axis=-1)
+print("result : ", val_labels)
 
 # 6. 정확도 - score 
 score = model.evaluate(test_data,test_label)

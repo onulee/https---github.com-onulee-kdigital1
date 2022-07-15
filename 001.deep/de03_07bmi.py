@@ -66,7 +66,9 @@ hist = model.fit(
 # hist = model.fit(X_train, y_train, epochs=20, verbose=0,\
 #     validation_data=(X_test,  y_test),callbacks=[checkpoint_cb,early_stopping_cb])
 
-
+# result = model.predict([[141/200,64/100]])
+result = model.predict([[0.68,0.63]])
+print("예측 : ",result)
 
 # 테스트 데이터로 평가하기 --- (※6)
 score = model.evaluate(X_test, y_test)
