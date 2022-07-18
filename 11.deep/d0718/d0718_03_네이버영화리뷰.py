@@ -5,7 +5,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from konlpy.tag import Okt
 import urllib.request
-from gensim.models import word2vec
+from gensim.models import Word2Vec
 
 # url 파일 불러오기
 urllib.request.urlretrieve('https://raw.githubusercontent.com/e9t/nsmc/master/ratings.txt',filename='ratings.txt')
@@ -46,7 +46,7 @@ for sent in train_data['document']:
     
     
 # word2vec - 글과 글의 관계가 형성됨.   
-model = word2vec(sentences=token_data,vector_size=100,window=5,min_count=5,workers=4,sg=0)
+model = Word2Vec(sentences=token_data,vector_size=100,window=5,min_count=5,workers=4,sg=0)
 
 # word2vec
 # model.save('model_w2v')
