@@ -1,10 +1,14 @@
 from konlpy.tag import Okt
 import pandas as pd
 from gensim.models import Word2Vec
+import pandas as pd
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
 
 # book파일 가져오기
 f = open('11.deep/d0718/book.txt',encoding='utf-8')
 book = f.read()
+
 
 # 네이버의 영화댓글
 # 199992
