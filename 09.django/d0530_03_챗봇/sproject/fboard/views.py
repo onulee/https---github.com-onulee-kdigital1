@@ -9,6 +9,41 @@ import requests
 import json
 import cx_Oracle as ora
 
+#-----------------------------------------------------
+# 챗봇 알고리즘
+import pandas as pd
+from sentence_transformers import SentenceTransformer
+from sklearn.metrics.pairwise import cosine_similarity
+
+
+# 개별적인 질문 함수호출
+def return_answer(question):
+    from sklearn.metrics.pairwise import cosine_similarity
+    model = SentenceTransformer('jhgan/ko-sroberta-multitask')
+    # 데이터 불러오기
+    df = pd.read_csv("C:/pydata/09.django/d0530_03_챗봇/sproject/fboard/wellness_dataset.csv")
+    # 입력된 질문 벡터화
+    embedding = model.encode(question)
+    print(embedding)
+    print("-"*50)
+    print(df['embedding'])
+    print("-"*50)
+    
+    # 모든 질문과 입력된 질문의 유사도 저장
+    df['similarity'] = df['embedding'].map(lambda x: cosine_similarity([embedding], [x]).squeeze())
+    # print('similarity : ',df['similarity'])
+    # # 가장 높은 유사도 글을 리턴
+    answer = df.loc[df['similarity'].idxmax()]
+    answer = df.loc[df['similarity'].idxmax()]
+    # answer = df.loc[3]
+    print('구분 : ', answer['구분'])
+    print('유사한 질문 : ', answer['유저'])
+    print('챗봇 답변 : ', answer['챗봇'])
+    print('유사도 : ', answer['similarity'])
+    return answer
+
+
+#-----------------------------------------------------
 
 
 # chat
@@ -23,8 +58,13 @@ def chat_service(request):
         input1 = request.POST['input1']
         print("입력값 : ",input1)
         # 딥러닝 호출
+        response = return_answer(input1)
+        print(" 테스트 : ",response)
         output = dict()
-        output['response'] = "이건 응답"
+        output['similarity'] = response['similarity']
+        output['response'] = response['챗봇']
+        # output['response'] = '즉시응답'
+        # return JsonResponse(chart_data,safe=False) 
         return HttpResponse(json.dumps(output), status=200)
     else:
         return render(request, 'addresses/chat_test.html')
