@@ -7,11 +7,13 @@ import json
 
 # 실행방법 : 콘솔창 streamlit run chatbot.py
 
+# 1회 실행
 @st.cache(allow_output_mutation=True)
 def cached_model():
     model = SentenceTransformer('jhgan/ko-sroberta-multitask')
     return model
 
+# 1회 실행
 @st.cache(allow_output_mutation=True)
 def get_dataset():
     df = pd.read_csv('wellness_dataset.csv')
@@ -22,7 +24,7 @@ model = cached_model()
 df = get_dataset()
 
 st.header('심리상담 챗봇')
-st.markdown("[❤️챗봇프로그램]")
+st.markdown("[챗봇프로그램]")
 
 if 'generated' not in st.session_state:
     st.session_state['generated'] = []
