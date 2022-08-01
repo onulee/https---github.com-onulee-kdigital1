@@ -16,6 +16,7 @@ book = f.read()
 okt = Okt()
 malist = okt.nouns(book) 
 
+# 문자1개로 합침.
 data = ' '.join(malist)
    
 wordcloud = WordCloud('11.deep/d0718/NANUMGOTHIC.TTF').generate(data) 
