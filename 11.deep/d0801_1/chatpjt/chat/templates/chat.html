@@ -50,9 +50,9 @@
             $('#divbox').append('<div class="msg_box send"><span>'+$('#input1').val()+'<span></div>');
             // 스크롤을 상단으로 올림
             $("#divbox").scrollTop($("#divbox")[0].scrollHeight);
-            console.log("serial"+$('form').serialize())
+            console.log("serial : "+$('form').serialize())
             $.ajax({
-                url:  '/fboard/chat_service/', //챗봇 api url
+                url:  '/chat/chat_service/', //챗봇 api url
                 type: 'post',
                 dataType: 'json',
                 // form 의 모든 데이터 전송
@@ -61,7 +61,9 @@
                     console.log("data : "+data.similarity)
                     console.log("data.reponse : "+data.response)
                     <!--$('#reponse').html(data.response);-->
-                    $('#divbox').append('<div class="msg_box receive"><span>'+ data.response +' (정확도):'+data.similarity+'<span></div>');
+                    //주석처리
+                    $('#divbox').append('<div class="msg_box receive"><span>'+ data.response +' (정확도):'+data.distance+'<span></div>'); 
+                    
                     $("#divbox").scrollTop($("#divbox")[0].scrollHeight);
                 }
             });
