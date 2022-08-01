@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -13,7 +13,7 @@
 .chat_input {padding:2px 5px; height:22px;  width: 440px; }
 .chat_header {padding: 10px 15px;border-bottom: 1px solid #95a6b4;}
 .chat_header .close_btn {border: none;background: none;float: right;}
-.send_btn {border: 1px solid #666;background: #ffeb33;height: 32px;width: 60px; color: #0a0a0a;}
+.send_btn {;border: 1px solid #666;background: #ffeb33;height: 32px;width: 60px; color: #0a0a0a;}
 .msg_box:after {content: '';display: block;clear:both;}
 .msg_box > span {padding: 3px 5px;word-break: break-all;display: block;max-width: 300px;margin-bottom: 10px;border-radius: 4px}
 .msg_box.send > span {background:#ffeb33;float: right;}
@@ -52,7 +52,7 @@
             $("#divbox").scrollTop($("#divbox")[0].scrollHeight);
             console.log("serial"+$('form').serialize())
             $.ajax({
-                url:  '/fboard/chat_service/', //챗봇 api url
+                url:  '/chatprogram/chat_service/', //챗봇 api url
                 type: 'post',
                 dataType: 'json',
                 // form 의 모든 데이터 전송
