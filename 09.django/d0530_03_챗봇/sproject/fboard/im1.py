@@ -2,6 +2,8 @@ import pandas as pd
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 
+
+# ai데이터 : https://aihub.or.kr/
 model = SentenceTransformer('jhgan/ko-sroberta-multitask')
 # 데이터 불러오기
 df = pd.read_csv("C:/pydata/09.django/d0530_03_챗봇/sproject/fboard/wellness_dataset.csv")
