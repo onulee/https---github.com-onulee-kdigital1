@@ -13,3 +13,4 @@ ex_text = ['안녕하세요.?', '한국어 문자 임베딩을 위한 버트 모
 sample_embedding = model.encode(ex_text) 
 
 print(sample_embedding)
+
