@@ -11,6 +11,7 @@ with open('11.deep/d0808/b1.jpg','rb') as file:
     # 흑백파일 변경
     img = img.convert('L')
     img = img.resize((28,28))
+    # 255 숫자로 변환
     data = np.array(img)
     
 # print(data.shape)  # (28,28)
