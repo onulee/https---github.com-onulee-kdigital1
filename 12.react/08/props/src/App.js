@@ -1,23 +1,21 @@
 import logo from './logo.svg';
 import './App.css';
+import React, { useState } from 'react';
+import Counter from './components/Counter';
 
 function App() {
+  const [buttonName, setButtonName] = useState('버튼');
+  const clickButton = () => {
+    setButtonName('클릭');
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>main 페이지</h1>
+      <Counter click="click1" />
+      <Counter click={buttonName} />
+      <Counter />
+      <p />
+      <button onClick={clickButton}>이름변경</button>
     </div>
   );
 }
